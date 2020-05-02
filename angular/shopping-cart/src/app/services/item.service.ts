@@ -38,5 +38,12 @@ export class ItemService {
     return res$;
   }
 
+  deleteItem(itemId: number): Observable<HttpResponse<IItem>> {
+    let url = this.itemUrl + "/" + itemId;
+    let res$ = this.http.delete<IItem>(url, { headers: this.HEADERS, observe: "response" });
+    return res$;
+  }
+
+
 
 }

@@ -11,6 +11,7 @@ import { ItemsCustomerComponent } from './items-customer/items-customer.componen
 import { ItemsShopOwnerComponent } from './items-shop-owner/items-shop-owner.component';
 import { ItemFormComponent } from './item-form/item-form.component';
 import { ResponseMessagesComponent } from './shared-components/response-messages/response-messages.component';
+import { CartFormComponent } from './shared-components/cart-form/cart-form.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ResponseMessagesComponent } from './shared-components/response-messages
     ItemsCustomerComponent,
     ItemsShopOwnerComponent,
     ItemFormComponent,
-    ResponseMessagesComponent
+    ResponseMessagesComponent,
+    CartFormComponent
   ],
   imports: [
     BrowserModule,

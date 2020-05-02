@@ -18,12 +18,10 @@
                 <button (click)="onUpdate(item.id)" class="btn btn-primary">Update</button>
             </td>
             <td *ngIf="role == 'SHOPOWNER'">
-                <button class="btn btn-danger">Delete</button>
+                <button (click)="onDelete(item.id)" class="btn btn-danger">Delete</button>
             </td>
             <td *ngIf="role == 'CUSTOMER'">
-                <button class="btn btn-primary">
-                    Add to Cart
-                </button>
+                <app-cart-form [item]="item" (addedToCart)="onAddedToCart($event)"></app-cart-form>
             </td>
         </tr>
     </tbody>

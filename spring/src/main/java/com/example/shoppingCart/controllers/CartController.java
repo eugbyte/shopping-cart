@@ -17,21 +17,19 @@ public class CartController {
     private ICartService cartService;
 
     @PostMapping()
-    public Callable<ResponseEntity<Cart>> addItemToCart(@RequestBody AddToCartViewModel addToCartViewModel) {
+    public Callable<ResponseEntity<Cart>> addToCart(@RequestBody AddToCartViewModel addToCartViewModel) {
         return () -> {
             int itemId = addToCartViewModel.itemId;
             int quantity = addToCartViewModel.quantity;
             int customerId = addToCartViewModel.customerId;
-            Cart cart = cartService.modifyCart(itemId, quantity, customerId);
+            Cart cart = cartService.addToCart(itemId, quantity, customerId);
             return ResponseEntity.ok(cart);
         };
     }
 
     @GetMapping("{customerId}")
-    public Callable<ResponseEntity<Cart>> getCart(@PathVariable int customerId) {
-        return () -> {
-            Cart cart = cartService.getCart(customerId);
-            return ResponseEntity.ok(cart);
-        };
+    public ResponseEntity<Cart> getCart(@PathVariable int customerId) {
+        Cart cart = cartService.getCart(customerId);
+        return ResponseEntity.ok(cart);
     }
 }

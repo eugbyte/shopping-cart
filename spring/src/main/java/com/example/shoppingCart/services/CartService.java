@@ -1,6 +1,7 @@
 package com.example.shoppingCart.services;
 
 import com.example.shoppingCart.exceptions.CustomerNotFoundException;
+import com.example.shoppingCart.exceptions.QuantityLessThanOneException;
 import com.example.shoppingCart.models.Cart;
 import com.example.shoppingCart.models.CartDetail;
 import com.example.shoppingCart.models.Item;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.function.Supplier;
 
 @Service
 public class CartService implements ICartService {
@@ -24,7 +24,7 @@ public class CartService implements ICartService {
     protected ItemRepository itemRepository;
 
     //This is at the list view
-    public Cart modifyCart(int itemId, int quantity, int customerId) {
+    public Cart addToCart(int itemId, int quantity, int customerId) {
         Cart cart = cartRepository.findByCustomer_Id(customerId)
                 .orElseThrow(() -> new CustomerNotFoundException());
 
@@ -43,7 +43,7 @@ public class CartService implements ICartService {
         if (cartDetailToUpdate == null) {
             createCartDetail(itemId, quantity, cart.getId());
         } else {
-            updateCartDetail(cartDetailToUpdate, quantity);
+            incrementQuantityCartDetail(cartDetailToUpdate, quantity);
         }
 
         Cart updatedCart = cartRepository.findByCustomer_Id(customerId).get();
@@ -73,10 +73,21 @@ public class CartService implements ICartService {
         cartDetailRepository.save(cartDetail);
     }
 
-    protected void updateCartDetail(CartDetail cartDetailToUpdate, int quantity) {
+    protected void incrementQuantityCartDetail(CartDetail cartDetailToUpdate, int quantity) {
+        //Update cartDetail if item exists in cart
+        if (quantity < 1)
+            throw new QuantityLessThanOneException(quantity);
+        int oldQuantity = cartDetailToUpdate.getQuantity();
+        cartDetailToUpdate.setQuantity(oldQuantity + quantity);
+        cartDetailToUpdate.setDateModified(LocalDateTime.now());
+        cartDetailRepository.save(cartDetailToUpdate);
+    }
+
+    public void updateCartDetail(CartDetail cartDetailToUpdate, int quantity) {
         //Update cartDetail if item exists in cart
         if (quantity > 0) {
-            cartDetailToUpdate.setQuantity(quantity);
+            int oldQuantity = cartDetailToUpdate.getQuantity();
+            cartDetailToUpdate.setQuantity(oldQuantity + quantity);
             cartDetailToUpdate.setDateModified(LocalDateTime.now());
             cartDetailRepository.save(cartDetailToUpdate);
         } else {

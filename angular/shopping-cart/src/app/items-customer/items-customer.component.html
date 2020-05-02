@@ -4,6 +4,6 @@
 </button>
 <br><br>
 
-<app-items-list [role]="'CUSTOMER'"></app-items-list>
+<app-items-list [role]="'CUSTOMER'" (addedToCart)="onAddedToCart($event)"></app-items-list>
 
 
