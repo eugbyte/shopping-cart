@@ -1,0 +1,5 @@
+As an a ShopOwner I would like to be able to manage my items so that I can accomodate changes to my physical inventory.
+
+As a Customer I would like to add items to a shopping cart so that I can checkout multiple items at once.
+
+As a Customer I would like to have an order history so that I can check what I have ordered.
