@@ -4,6 +4,7 @@ import { AddToCartViewModel } from 'src/app/models/AddToCartViewModel';
 import { CartService } from 'src/app/services/cart.service';
 import { IItem } from 'src/app/models/Item';
 import { StringStorage } from 'src/StringStorage';
+import { CartDetail, ICartDetail } from 'src/app/models/CartDetail';
 
 @Component({
   selector: 'app-cart-form',
@@ -11,10 +12,13 @@ import { StringStorage } from 'src/StringStorage';
   styleUrls: ['./cart-form.component.css']
 })
 export class CartFormComponent implements OnInit {
+  //Shared by item-list-component and cart-component
 
-  @Input() item: IItem;
+  @Input() item?: IItem;
   @Input() action?: String;
+  @Input() cartDetail?: ICartDetail;
   @Output() addedToCart = new EventEmitter<number>();
+  @Output() updatedCart = new EventEmitter<boolean>();
 
   private cartService: CartService;
   private fb: FormBuilder;
@@ -29,11 +33,15 @@ export class CartFormComponent implements OnInit {
 
 
   ngOnInit(): void {
+    if (this.cartDetail && this.item == null) {
+      this.item = this.cartDetail.item;
+    }
+
     this.cartForm = this.fb.group({
       id: [this.item.id],
       price: [this.item.price],
-      quantity: []
-    })
+      quantity: [this.cartDetail?.quantity, Validators.compose([Validators.required, Validators.min(1)]) ]
+    });
    }
 
    get id(): FormControl { return this.cartForm.get("id") as FormControl; }
@@ -49,12 +57,26 @@ export class CartFormComponent implements OnInit {
 
     if (vm.quantity < 1)
       return;
-    
-    this.addedToCart.emit(vm.quantity);
-    
+        
     this.cartService.addToCart(vm).subscribe(
       cart => console.log(cart),
-      error => console.log(error));    
+      error => console.log(error),
+      () => this.addedToCart.emit(vm.quantity));    
+  }
+
+  onUpdateCart(): void {
+    let cartDetail: ICartDetail = new CartDetail();
+    cartDetail.id = this.cartDetail.id;
+    cartDetail.item = this.cartDetail.item;
+    cartDetail.quantity = this.quantity.value;
+    console.log(cartDetail);
+
+    this.cartService.updateCartDetail(cartDetail).subscribe( 
+      res => console.log(res),
+      error => console.log(error),
+      () => this.updatedCart.emit(true) );
+
+
   }
 
   

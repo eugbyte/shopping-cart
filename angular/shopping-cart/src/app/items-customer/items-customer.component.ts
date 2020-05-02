@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../services/cart.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-items-customer',
@@ -10,7 +11,13 @@ export class ItemsCustomerComponent implements OnInit {
 
   cartLength: number = 0;
 
-  constructor(private cartService: CartService) { }
+  private cartService: CartService;
+  private router: Router;
+
+  constructor(cartService: CartService, router: Router) { 
+    this.cartService = cartService;
+    this.router = router;
+  }
 
   ngOnInit(): void {
     this.setCartLength();
@@ -21,20 +28,20 @@ export class ItemsCustomerComponent implements OnInit {
     this.cartService.getCart(1).subscribe(
       cart => {
         console.log("setting cart length");
+        console.log(cart);        
         this.cartLength = cart.cartDetails.reduce((accumulator, element) => accumulator + element.quantity, 0);
+
       },
       error => console.log(error));
   }
 
   onAddedToCart(quantity: number): void {
     console.log("in customer page", quantity);
-    let total = quantity + this.cartLength;
     this.setCartLength();
+  }
 
-    //the problem right now is that the request to retrieve the cart, is faster than the request
-    //to update the cart
-    if (this.cartLength < total)
-      this.cartLength = total;
+  onCartClick(): void {
+    this.router.navigate(["cart"]);
   }
 
 }

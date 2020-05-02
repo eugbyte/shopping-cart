@@ -2,6 +2,9 @@ package com.example.shoppingCart.controllers;
 
 import com.example.shoppingCart.ViewModels.AddToCartViewModel;
 import com.example.shoppingCart.models.Cart;
+import com.example.shoppingCart.models.CartDetail;
+import com.example.shoppingCart.services.CartDetailService;
+import com.example.shoppingCart.services.ICartDetailService;
 import com.example.shoppingCart.services.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +19,9 @@ public class CartController {
     @Autowired
     private ICartService cartService;
 
+    @Autowired
+    private ICartDetailService cartDetailService;
+
     @PostMapping()
     public Callable<ResponseEntity<Cart>> addToCart(@RequestBody AddToCartViewModel addToCartViewModel) {
         return () -> {
@@ -28,8 +34,27 @@ public class CartController {
     }
 
     @GetMapping("{customerId}")
-    public ResponseEntity<Cart> getCart(@PathVariable int customerId) {
-        Cart cart = cartService.getCart(customerId);
-        return ResponseEntity.ok(cart);
+    public Callable<ResponseEntity<Cart>> getCart(@PathVariable int customerId) {
+        return () -> {
+            Cart cart = cartService.getCart(customerId);
+            return ResponseEntity.ok(cart);
+        };
     }
+
+    @PutMapping()
+    public Callable<ResponseEntity> updateCartDetail(@RequestBody CartDetail cartDetail) {
+        return () -> {
+            cartDetailService.updateCartDetail(cartDetail);
+            return ResponseEntity.noContent().build();
+        };
+    }
+
+    @DeleteMapping("{cartDetailId}")
+    public Callable<ResponseEntity> deleteCartDetail(@PathVariable int cartDetailId) {
+        return () -> {
+            cartDetailService.deleteCartDetail(cartDetailId);
+            return ResponseEntity.ok().build();
+        };
+    }
+
 }

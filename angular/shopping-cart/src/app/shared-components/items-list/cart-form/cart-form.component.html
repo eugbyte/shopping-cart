@@ -9,7 +9,14 @@
           </span>
         </div>
         <div class="col"  *ngIf="action == 'ACTION_CREATE' ">
-          <input type="submit" (click)="onAddToCart()" value="Add to Cart" class="btn btn-primary" />
+          <input type="submit" (click)="onAddToCart()" 
+            [disabled]="!cartForm.valid"
+            value="Add to Cart" class="btn btn-primary" />
+        </div>
+        <div class="col" *ngIf="action == 'ACTION_UPDATE' ">
+          <input type="submit" (click)="onUpdateCart()"
+            [disabled]="!cartForm.valid"
+            value="Update Cart" class="btn btn-primary" />
         </div>
       </div>
     </form>

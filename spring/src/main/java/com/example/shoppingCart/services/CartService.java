@@ -39,13 +39,12 @@ public class CartService implements ICartService {
             }
         }
 
-        //Create cartDetail if item does not exists in cart, otherwise update quantity
+        //Create cartDetail if item does not exists in cart, otherwise increment quantity
         if (cartDetailToUpdate == null) {
             createCartDetail(itemId, quantity, cart.getId());
         } else {
-            incrementQuantityCartDetail(cartDetailToUpdate, quantity);
+            incrementCartDetailQuantity(cartDetailToUpdate, quantity);
         }
-
         Cart updatedCart = cartRepository.findByCustomer_Id(customerId).get();
         return removeSelfReference(updatedCart);
     }
@@ -69,11 +68,10 @@ public class CartService implements ICartService {
         cartDetail.setQuantity(quantity);
 
         cartDetail.setDateModified(LocalDateTime.now());
-
         cartDetailRepository.save(cartDetail);
     }
 
-    protected void incrementQuantityCartDetail(CartDetail cartDetailToUpdate, int quantity) {
+    protected void incrementCartDetailQuantity(CartDetail cartDetailToUpdate, int quantity) {
         //Update cartDetail if item exists in cart
         if (quantity < 1)
             throw new QuantityLessThanOneException(quantity);
@@ -81,18 +79,6 @@ public class CartService implements ICartService {
         cartDetailToUpdate.setQuantity(oldQuantity + quantity);
         cartDetailToUpdate.setDateModified(LocalDateTime.now());
         cartDetailRepository.save(cartDetailToUpdate);
-    }
-
-    public void updateCartDetail(CartDetail cartDetailToUpdate, int quantity) {
-        //Update cartDetail if item exists in cart
-        if (quantity > 0) {
-            int oldQuantity = cartDetailToUpdate.getQuantity();
-            cartDetailToUpdate.setQuantity(oldQuantity + quantity);
-            cartDetailToUpdate.setDateModified(LocalDateTime.now());
-            cartDetailRepository.save(cartDetailToUpdate);
-        } else {
-            cartDetailRepository.deleteById(cartDetailToUpdate.getId());
-        }
     }
 
     protected Cart removeSelfReference(Cart cart) {

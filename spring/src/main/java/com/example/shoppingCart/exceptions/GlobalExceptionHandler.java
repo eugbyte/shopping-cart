@@ -11,15 +11,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(ItemNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleItemNotFoundException(ItemNotFoundException ex, WebRequest request) {
-        ErrorResponse errorResponse = new ErrorResponse();
-        errorResponse.message = ex.getMessage();
-        return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(CustomerNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleCustomerNotFoundException(CustomerNotFoundException ex, WebRequest request) {
+    @ExceptionHandler(value = {ItemNotFoundException.class, CustomerNotFoundException.class, CartDetailNotFoundException.class} )
+    public ResponseEntity<ErrorResponse> handleNotFoundException(RuntimeException ex, WebRequest request) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.message = ex.getMessage();
         return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.NOT_FOUND);
@@ -38,4 +31,5 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         errorResponse.message = ex.getMessage();
         return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+
 }

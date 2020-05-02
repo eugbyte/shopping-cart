@@ -1,0 +1,47 @@
+<h2>Cart Page</h2>
+
+<table *ngIf="cartToDisplay" [class]="TABLE_CSS">
+    <thead class="thead-dark">
+        <tr>
+            <th>Item</th>
+            <th>Price </th>
+            <th>Quantity</th>
+            <th>Remove</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let cartDetail of cartToDisplay.cartDetails">
+            <td>{{ cartDetail.item.name }}</td>
+            <td>{{ cartDetail.item.price }}</td>
+            <td>
+                <app-cart-form 
+                    [action]=" 'ACTION_UPDATE' "
+                    [cartDetail]="cartDetail"
+                    (updatedCart)="onCartUpdateEvent($event)"></app-cart-form>
+            </td>
+            <td><button (click)="onDelete(cartDetail.id)" class="btn btn-danger">Delete</button></td>
+        </tr>
+    </tbody>
+</table>
+
+<app-response-messages [responseMessages]="responseMessages"></app-response-messages>
+
+<h2>Summary</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Total Cost</th>
+            <th>Total Quantity</th>
+        </tr>       
+    </thead>
+    <tbody>
+        <tr>
+            <td>${{ totalCost }}</td>
+            <td>{{ totalQuantity }}</td>
+        </tr>
+
+    </tbody>
+</table>
+
+<button (click)="onOrder()" class="btn btn-lg btn-success">Make Order</button>
+
