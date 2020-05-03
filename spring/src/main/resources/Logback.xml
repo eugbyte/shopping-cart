@@ -1,0 +1,7 @@
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml" />
+    <logger name="DebugLogger" level="debug"/>
+    <logger name="ErrorLogger" level="error"/>
+</configuration>
+
+

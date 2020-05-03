@@ -20,5 +20,4 @@ public class Cart {
     @OneToMany(mappedBy = "cart", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<CartDetail> cartDetails;
 
-
 }

@@ -4,6 +4,7 @@ import com.example.shoppingCart.exceptions.CustomerNotFoundException;
 import com.example.shoppingCart.exceptions.QuantityLessThanOneException;
 import com.example.shoppingCart.models.Cart;
 import com.example.shoppingCart.models.CartDetail;
+import com.example.shoppingCart.models.Customer;
 import com.example.shoppingCart.models.Item;
 import com.example.shoppingCart.repositories.CartDetailRepository;
 import com.example.shoppingCart.repositories.CartRepository;
@@ -82,7 +83,11 @@ public class CartService implements ICartService {
     }
 
     protected Cart removeSelfReference(Cart cart) {
-        cart.setCustomer(null);
+        Customer customer = cart.getCustomer();
+        customer.setCart(null);
+        customer.setOrders(null);
+        cart.setCustomer(customer);
+
         List<CartDetail> cartDetails = cart.getCartDetails();
         cartDetails.forEach(cartDetail -> {
             cartDetail.setCart(null);
