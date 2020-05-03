@@ -10,4 +10,5 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Orde_r, Integer> {
     List<Orde_r> findByCustomer_Id (int customerId);
     Orde_r findTopByCustomer_IdOrderByIdDesc (int customerId);
+    List<Orde_r> findByCustomer_IdOrderByIdDesc(int customerId);
 }

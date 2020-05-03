@@ -13,6 +13,8 @@ import { ItemFormComponent } from './item-form/item-form.component';
 import { ResponseMessagesComponent } from './shared-components/response-messages/response-messages.component';
 import { CartFormComponent } from './shared-components/items-list/cart-form/cart-form.component';
 import { CartComponent } from './cart/cart.component';
+import { OrderHistoryComponent } from './order-history/order-history.component';
+import { OrderDetailsPipe } from './pipes/order-details.pipe';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { CartComponent } from './cart/cart.component';
     ItemFormComponent,
     ResponseMessagesComponent,
     CartFormComponent,
-    CartComponent
+    CartComponent,
+    OrderHistoryComponent,
+    OrderDetailsPipe
   ],
   imports: [
     BrowserModule,

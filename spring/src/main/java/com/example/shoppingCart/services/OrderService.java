@@ -63,7 +63,7 @@ public class OrderService implements IOrderService {
     }
 
     public List<Orde_r> getAllOrders(int customerId) {
-        List<Orde_r> orders = orderRepository.findByCustomer_Id(customerId);
+        List<Orde_r> orders = orderRepository.findByCustomer_IdOrderByIdDesc(customerId);
         return removeSelfReference(orders);
     }
 

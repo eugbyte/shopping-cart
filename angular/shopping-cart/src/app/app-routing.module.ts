@@ -4,6 +4,7 @@ import { ItemsCustomerComponent } from './items-customer/items-customer.componen
 import { ItemsShopOwnerComponent } from './items-shop-owner/items-shop-owner.component';
 import { ItemFormComponent } from './item-form/item-form.component';
 import { CartComponent } from './cart/cart.component';
+import { OrderHistoryComponent } from './order-history/order-history.component';
 
 
 const routes: Routes = [
@@ -13,7 +14,9 @@ const routes: Routes = [
     { path: "manage", component: ItemFormComponent},
     { path: "", component: ItemsShopOwnerComponent}
   ]},
-  { path: "cart", component: CartComponent }
+  { path: "cart", component: CartComponent },
+  { path: "order", component: OrderHistoryComponent },
+  { path: "", redirectTo: "items", pathMatch: "full" }
 ];
 
 @NgModule({

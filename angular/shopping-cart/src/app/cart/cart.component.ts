@@ -3,6 +3,8 @@ import { CartService } from '../services/cart.service';
 import { ICart } from '../models/Cart';
 import * as lodash from 'lodash';
 import { StringStorage } from 'src/StringStorage';
+import { OrderService } from '../services/order.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -12,6 +14,9 @@ import { StringStorage } from 'src/StringStorage';
 export class CartComponent implements OnInit {
 
   private cartService: CartService;
+  private orderService: OrderService;
+  private router: Router;
+
   private CART: ICart;
   public cartToDisplay: ICart;
 
@@ -22,8 +27,10 @@ export class CartComponent implements OnInit {
 
   TABLE_CSS: string = StringStorage.TABLE_CSS;
 
-  constructor(cartService: CartService) {
+  constructor(cartService: CartService, orderService: OrderService, router: Router) {
     this.cartService = cartService;
+    this.orderService = orderService;
+    this.router = router;
   }
 
   ngOnInit(): void {
@@ -66,6 +73,12 @@ export class CartComponent implements OnInit {
 
   onOrder(): void {
     console.log(this.CART);
+
+    let customerId: number = 1; //Assume for now
+    this.orderService.makeOrder(customerId).subscribe(
+      order => console.log(order),
+      error => console.log(error),
+      () => this.router.navigate(["order"]) );
   }
 
 }

@@ -1,0 +1,16 @@
+<table [class]="TABLE_CSS">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Order Date</th>
+            <th>Order Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let order of ordersToDisplay">
+            <td>{{ order.id }}</td>
+            <td>{{ order.orderDate | date }}</td>
+            <td>{{ order.orderDetails | orderDetails }}</td>
+        </tr> 
+    </tbody>
+</table>

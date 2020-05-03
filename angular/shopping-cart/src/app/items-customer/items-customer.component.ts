@@ -14,6 +14,8 @@ export class ItemsCustomerComponent implements OnInit {
   private cartService: CartService;
   private router: Router;
 
+  responseMessages: string[] = [];
+
   constructor(cartService: CartService, router: Router) { 
     this.cartService = cartService;
     this.router = router;
@@ -38,6 +40,7 @@ export class ItemsCustomerComponent implements OnInit {
   onAddedToCart(quantity: number): void {
     console.log("in customer page", quantity);
     this.setCartLength();
+    this.responseMessages.push("item added");
   }
 
   onCartClick(): void {
