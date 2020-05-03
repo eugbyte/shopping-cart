@@ -1,6 +1,6 @@
 <h2>Cart Page</h2>
 
-<table *ngIf="cartToDisplay" [class]="TABLE_CSS">
+<table *ngIf="cartToDisplay && cartToDisplay.cartDetails.length > 0; else noItemsInCart" [class]="TABLE_CSS">
     <thead class="thead-dark">
         <tr>
             <th>Item</th>
@@ -23,6 +23,10 @@
         </tr>
     </tbody>
 </table>
+
+<ng-template #noItemsInCart>
+    <p>No items in cart</p>
+</ng-template>
 
 <app-response-messages [responseMessages]="responseMessages"></app-response-messages>
 

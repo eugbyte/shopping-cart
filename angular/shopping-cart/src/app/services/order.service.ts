@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { StringStorage } from 'src/StringStorage';
 import { Observable } from 'rxjs';
 import { CustomerIdViewModel } from '../models/CustomerIdViewModel';
 import { IOrder } from '../models/Order';
+import { StringStorage } from 'src/StringStorage';
 
 @Injectable({
   providedIn: 'root'

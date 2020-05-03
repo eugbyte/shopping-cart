@@ -1,6 +1,7 @@
-package com.example.shoppingCart.exceptions;
+package com.example.shoppingCart.controllers;
 
 import com.example.shoppingCart.ViewModels.ErrorResponse;
+import com.example.shoppingCart.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

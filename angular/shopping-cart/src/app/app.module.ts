@@ -8,13 +8,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './home/navbar/navbar.component';
 import { ItemsListComponent } from './shared-components/items-list/items-list.component';
-import { ItemsCustomerComponent } from './items-customer/items-customer.component';
-import { ItemsShopOwnerComponent } from './items-shop-owner/items-shop-owner.component';
-import { ItemFormComponent } from './item-form/item-form.component';
+import { ItemsCustomerComponent } from './customer/items-customer/items-customer.component';
+import { ItemsShopOwnerComponent } from './shopOwner/items-shop-owner/items-shop-owner.component';
+import { ItemFormComponent } from './shopOwner/item-form/item-form.component';
 import { ResponseMessagesComponent } from './shared-components/response-messages/response-messages.component';
 import { CartFormComponent } from './shared-components/items-list/cart-form/cart-form.component';
-import { CartComponent } from './cart/cart.component';
-import { OrderHistoryComponent } from './order-history/order-history.component';
+import { CartComponent } from './customer/cart/cart.component';
+import { OrderHistoryComponent } from './customer/order-history/order-history.component';
 import { OrderDetailsPipe } from './pipes/order-details.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 

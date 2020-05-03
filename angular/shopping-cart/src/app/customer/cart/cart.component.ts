@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CartService } from '../services/cart.service';
-import { ICart } from '../models/Cart';
+import { CartService } from '../../services/cart.service';
+import { ICart } from '../../models/Cart';
 import * as lodash from 'lodash';
 import { StringStorage } from 'src/StringStorage';
-import { OrderService } from '../services/order.service';
+import { OrderService } from '../../services/order.service';
 import { Router } from '@angular/router';
 
 @Component({

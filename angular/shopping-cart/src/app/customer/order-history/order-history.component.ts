@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { OrderService } from '../services/order.service';
-import { IOrder } from '../models/Order';
+import { OrderService } from '../../services/order.service';
+import { IOrder } from '../../models/Order';
 import * as lodash from "lodash";
 import { StringStorage } from 'src/StringStorage';
 import { PageEvent } from '@angular/material/paginator';
-import { FilterService } from '../services/filter.service';
+import { FilterService } from '../../services/filter.service';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 
 @Component({
