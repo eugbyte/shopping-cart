@@ -1,19 +1,20 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { IOrderDetail } from '../models/OrderDetail';
+import { FilterService } from '../services/filter.service';
+import { TransformService } from '../services/transform.service';
 
 @Pipe({
   name: 'orderDetails'
 })
 export class OrderDetailsPipe implements PipeTransform {
+  private transformService: TransformService;
+
+  constructor(transformService: TransformService) {
+    this.transformService = transformService;
+  }
 
   transform(orderDetails: IOrderDetail[]): string {
-    if (orderDetails.length < 1)
-      return "";
-    let description: string = orderDetails.map(od => od.quantity + " " + od.item.name + " $" + `(${od.item.price})`)
-      .reduce((accumulator, element) => accumulator + ", " + element);
-    let totalCost: number = orderDetails.map(od => od.item.price * od.quantity)
-      .reduce((accumulator, element) => accumulator + element);
-    description += " = $" + totalCost; 
+    let description: string = this.transformService.transformOrderDetailsToText(orderDetails); 
     return description;
   }
 

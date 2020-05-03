@@ -15,7 +15,7 @@ const routes: Routes = [
     { path: "", component: ItemsShopOwnerComponent}
   ]},
   { path: "cart", component: CartComponent },
-  { path: "order", component: OrderHistoryComponent },
+  { path: "orders", component: OrderHistoryComponent },
   { path: "", redirectTo: "items", pathMatch: "full" }
 ];
 

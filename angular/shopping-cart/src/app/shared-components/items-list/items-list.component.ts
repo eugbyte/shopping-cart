@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, FormArray, AbstractControl } from '@angular/forms';
 import { AddToCartViewModel } from 'src/app/models/AddToCartViewModel';
 import { CartService } from 'src/app/services/cart.service';
+import { PageEvent } from '@angular/material/paginator';
+import { FilterService } from 'src/app/services/filter.service';
 
 @Component({
   selector: 'app-items-list',
@@ -23,8 +25,9 @@ export class ItemsListComponent implements OnInit {
   private itemService: ItemService;
   private router: Router;
   private fb: FormBuilder;
+  private filterService: FilterService;
 
-  cartForms: FormGroup;
+  searchForm: FormGroup;
 
   @Input() role?: string;
   @Output() addedToCart = new EventEmitter<number>();
@@ -34,16 +37,26 @@ export class ItemsListComponent implements OnInit {
 
   TABLE_CSS = StringStorage.TABLE_CSS;
 
-  constructor(itemService: ItemService, router: Router, fb: FormBuilder, private cartService: CartService) {
+  pageSize = 5;
+  pageLength = 100;
+
+  constructor(itemService: ItemService, router: Router, fb: FormBuilder, filterService: FilterService) {
     this.itemService = itemService;
     this.router = router;
     this.role = this.role ?? StringStorage.ROLE_CUSTOMER;
     this.fb = fb;
+    this.filterService = filterService;
    }
 
   ngOnInit(): void {
     this.setItems();
+    this.searchForm = this.fb.group({
+      searchText: []
+    });
+    this.onChanges();
   }
+
+  get searchText(): FormControl { return this.searchForm.get("searchText") as FormControl; }
 
   setItems(): void {
     this.itemService.getAllItems().subscribe(
@@ -51,9 +64,10 @@ export class ItemsListComponent implements OnInit {
         this.ITEMS = items;
         this.filteredItems = lodash.cloneDeep(items);
         this.itemsToDisplay = lodash.cloneDeep(items);
-        
+        this.pageLength = this.ITEMS.length;
       },
-      error => console.log(error));    
+      error => console.log(error),
+      () => this.setPage());    
   }
 
   onUpdate(itemId: number): void {
@@ -70,6 +84,18 @@ export class ItemsListComponent implements OnInit {
   onAddedToCart(quantity: number) {
     console.log(quantity + " in item-list");
     this.addedToCart.emit(quantity);
+  }
+
+  setPage(event: PageEvent = null) {
+    this.pageLength = this.filteredItems.length;
+    this.itemsToDisplay = this.filterService.filterElementsToDisplayPerPage(this.filteredItems, this.pageSize, event);
+  }
+
+  onChanges(): void {
+    this.searchText.valueChanges.subscribe(value => {
+      this.filteredItems = this.filterService.filterItemsBySearchText(this.ITEMS, this.searchText.value);
+      this.setPage();
+    });
   }
 
 

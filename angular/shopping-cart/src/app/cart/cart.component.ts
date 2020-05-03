@@ -51,6 +51,8 @@ export class CartComponent implements OnInit {
   }
 
   calculateCartSummary() {
+    if (this.CART.cartDetails.length < 1)
+      return;
     this.totalQuantity = this.CART.cartDetails
       .reduce( (accumulator, element) => accumulator + element.quantity, 0);
     this.totalCost = this.CART.cartDetails
@@ -78,7 +80,7 @@ export class CartComponent implements OnInit {
     this.orderService.makeOrder(customerId).subscribe(
       order => console.log(order),
       error => console.log(error),
-      () => this.router.navigate(["order"]) );
+      () => this.router.navigate(["orders"]) );
   }
 
 }

@@ -1,5 +1,17 @@
+<form [formGroup]="searchForm">
+    <div class="form-group">
+        <input type="text" formControlName="searchText" class="form-control" 
+            placeholder="Search for order" />
+    </div>
+</form>
+<mat-paginator [length]="pageLength"
+    [pageSize]="pageSize"
+    [hidePageSize]="true"
+    (page)="setPage($event)">
+</mat-paginator>
+
 <table [class]="TABLE_CSS">
-    <thead>
+    <thead class="thead-dark">
         <tr>
             <th>Id</th>
             <th>Order Date</th>
