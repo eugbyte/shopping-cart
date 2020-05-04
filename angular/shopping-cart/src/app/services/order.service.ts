@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { CustomerIdViewModel } from '../models/CustomerIdViewModel';
+import { CustomerInfoViewModel } from '../models/CustomerIdViewModel';
 import { IOrder } from '../models/Order';
 import { StringStorage } from 'src/StringStorage';
 
@@ -18,9 +18,10 @@ export class OrderService {
     this.http = http;
   }
 
-  makeOrder(customerId: number): Observable<IOrder> {
-    let vm: CustomerIdViewModel = new CustomerIdViewModel();
+  makeOrder(customerId: number, cardNumber: string): Observable<IOrder> {
+    let vm: CustomerInfoViewModel = new CustomerInfoViewModel();
     vm.customerId = customerId;
+    vm.cardNumber = cardNumber;
     let order$ = this.http.post<IOrder>(this.orderUrl, vm, { headers: this.HEADERS });
     return order$;
   }

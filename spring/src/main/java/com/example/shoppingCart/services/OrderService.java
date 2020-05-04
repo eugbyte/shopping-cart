@@ -2,12 +2,14 @@ package com.example.shoppingCart.services;
 
 import com.example.shoppingCart.exceptions.CustomerNotFoundException;
 import com.example.shoppingCart.exceptions.EmptyCartException;
+import com.example.shoppingCart.exceptions.PaymentFailureException;
 import com.example.shoppingCart.models.*;
 import com.example.shoppingCart.repositories.CartRepository;
 import com.example.shoppingCart.repositories.OrderDetailRepository;
 import com.example.shoppingCart.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,7 +26,7 @@ public class OrderService implements IOrderService {
     @Autowired
     protected CartRepository cartRepository;
 
-    public Orde_r createOrder(int customerId) throws CustomerNotFoundException, EmptyCartException {
+    public Orde_r createOrder(int customerId, String cardNumber) throws CustomerNotFoundException, EmptyCartException {
         Orde_r order = new Orde_r();
         Cart cart = cartRepository.findByCustomer_Id(customerId).orElseThrow(() -> new CustomerNotFoundException(customerId));
         List<CartDetail> cartDetails = cart.getCartDetails();
@@ -50,9 +52,28 @@ public class OrderService implements IOrderService {
         order.setOrderDetails(orderDetails);
         order.setTxnId(UUID.randomUUID());
 
+        if (accessPaymentGateway(cardNumber) == false)
+            throw new PaymentFailureException(cardNumber);
+
         Orde_r createdOrder = orderRepository.save(order);
         emptyCart(cart);
         return removeSelfReference(createdOrder);
+    }
+
+    protected boolean accessPaymentGateway(String cardNumber) {
+        final String uri = "http://www.paymentGateWay.json";
+        RestTemplate restTemplate = new RestTemplate();
+
+        boolean isPaymentSuccessful = false;
+        try {
+            String result = restTemplate.getForObject(uri, String.class);
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+        } finally {
+            //Assume that payment is successful
+            isPaymentSuccessful = true;
+        }
+        return isPaymentSuccessful;
     }
 
     protected void emptyCart(Cart cart) {

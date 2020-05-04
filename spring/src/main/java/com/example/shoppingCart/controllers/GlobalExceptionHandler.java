@@ -28,7 +28,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(QuantityLessThanOneException.class)
+    @ExceptionHandler(value = { QuantityLessThanOneException.class, EmptyCartException.class })
     public ResponseEntity<ErrorResponse> handleQuantityLessThanOneException(QuantityLessThanOneException ex, WebRequest request) {
         logger.error(this.getClass() + " " + ex.toString());
         ErrorResponse errorResponse = new ErrorResponse();
@@ -36,12 +36,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(EmptyCartException.class)
+    @ExceptionHandler(PaymentFailureException.class)
     public ResponseEntity<ErrorResponse> handleEmptyCartException(EmptyCartException ex, WebRequest request) {
         logger.error(this.getClass() + " " + ex.toString());
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.message = ex.getMessage();
-        return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.UNAUTHORIZED);
     }
 
 }

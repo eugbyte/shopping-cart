@@ -5,6 +5,7 @@ import * as lodash from 'lodash';
 import { StringStorage } from 'src/StringStorage';
 import { OrderService } from '../../services/order.service';
 import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-cart',
@@ -22,20 +23,29 @@ export class CartComponent implements OnInit {
 
   responseMessages: string[] = [];
 
+  paymentForm: FormGroup;
+  private fb: FormBuilder;
+
   totalQuantity = 0;
   totalCost = 0;
 
   TABLE_CSS: string = StringStorage.TABLE_CSS;
 
-  constructor(cartService: CartService, orderService: OrderService, router: Router) {
+  constructor(cartService: CartService, orderService: OrderService, router: Router, fb: FormBuilder) {
     this.cartService = cartService;
     this.orderService = orderService;
     this.router = router;
+    this.fb = fb;    
   }
 
   ngOnInit(): void {
     this.setCart();
+    this.paymentForm = this.fb.group({
+      cardNumber: [, Validators.compose([Validators.required, Validators.minLength(1)])]
+    })
   }
+
+  get cardNumber(): FormControl { return this.paymentForm.get("cardNumber") as FormControl; }
 
   setCart(): void {
     //assume customerId is 1
@@ -77,7 +87,7 @@ export class CartComponent implements OnInit {
     console.log(this.CART);
 
     let customerId: number = 1; //Assume for now
-    this.orderService.makeOrder(customerId).subscribe(
+    this.orderService.makeOrder(customerId, this.cardNumber.value).subscribe(
       order => console.log(order),
       error => console.log(error),
       () => this.router.navigate(["orders"]) );

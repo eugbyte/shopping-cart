@@ -47,5 +47,14 @@
     </tbody>
 </table>
 
-<button (click)="onOrder()" class="btn btn-lg btn-success">Make Order</button>
+<form [formGroup]="paymentForm">
+    <div class="form-group">
+        <label for="id">Credit Card Number</label>
+        <input type="text" formControlName="cardNumber" class="form-control" 
+            placeholder="minimum 1 character"/>        
+    </div>
+
+    <button (click)="onOrder()" class="btn btn-lg btn-success"
+            [disabled]="!paymentForm.valid" id="payment">Make Order</button>
+</form>
 

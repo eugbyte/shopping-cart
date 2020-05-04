@@ -1,6 +1,6 @@
 package com.example.shoppingCart.controllers;
 
-import com.example.shoppingCart.ViewModels.CustomerIdViewModel;
+import com.example.shoppingCart.ViewModels.CustomerInfoViewModel;
 import com.example.shoppingCart.models.Orde_r;
 import com.example.shoppingCart.services.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +18,9 @@ public class OrderController {
     private IOrderService orderService;
 
     @PostMapping()
-    public Callable<ResponseEntity<Orde_r>> createOrder(@RequestBody CustomerIdViewModel vm) {
+    public Callable<ResponseEntity<Orde_r>> createOrder(@RequestBody CustomerInfoViewModel vm) {
         return () -> {
-            Orde_r order = orderService.createOrder(vm.customerId);
+            Orde_r order = orderService.createOrder(vm.customerId, vm.cardNumber);
             return ResponseEntity.ok(order);
         };
     }

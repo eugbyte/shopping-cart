@@ -1,3 +1,4 @@
-export class CustomerIdViewModel {
+export class CustomerInfoViewModel {
     customerId: number;
+    cardNumber: string;
 }
