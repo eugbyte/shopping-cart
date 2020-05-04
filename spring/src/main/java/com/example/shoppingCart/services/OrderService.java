@@ -7,6 +7,8 @@ import com.example.shoppingCart.models.*;
 import com.example.shoppingCart.repositories.CartRepository;
 import com.example.shoppingCart.repositories.OrderDetailRepository;
 import com.example.shoppingCart.repositories.OrderRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -25,6 +27,8 @@ public class OrderService implements IOrderService {
     protected OrderRepository orderRepository;
     @Autowired
     protected CartRepository cartRepository;
+
+    private Logger logger = LoggerFactory.getLogger("DebugLogger");
 
     public Orde_r createOrder(int customerId, String cardNumber) throws CustomerNotFoundException, EmptyCartException {
         Orde_r order = new Orde_r();
@@ -67,10 +71,12 @@ public class OrderService implements IOrderService {
         boolean isPaymentSuccessful = false;
         try {
             String result = restTemplate.getForObject(uri, String.class);
+            isPaymentSuccessful = true;
         } catch (Exception exception) {
-            System.out.println(exception.getMessage());
+            logger.debug(exception.getMessage());
+            isPaymentSuccessful = false;
         } finally {
-            //Assume that payment is successful
+            //Assume that payment is always successful in this mock example
             isPaymentSuccessful = true;
         }
         return isPaymentSuccessful;

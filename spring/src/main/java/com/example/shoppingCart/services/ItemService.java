@@ -3,6 +3,8 @@ package com.example.shoppingCart.services;
 import com.example.shoppingCart.exceptions.ItemNotFoundException;
 import com.example.shoppingCart.models.Item;
 import com.example.shoppingCart.repositories.ItemRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,8 @@ public class ItemService implements IItemService {
 
     @Autowired
     protected ItemRepository itemRepository;
+
+    private Logger logger = LoggerFactory.getLogger("DebugLogger");
 
     public List<Item> findAll() {
         List<Item> items = itemRepository.findAll();
@@ -49,8 +53,11 @@ public class ItemService implements IItemService {
     }
 
     protected Item removeSelfReference (Item item) {
-        item.setCartDetails(null);
-        item.setOrderDetails(null);
+        logger.debug("ItemService");
+        if (item.getCartDetails() != null)
+            item.setCartDetails(null);
+        if (item.getOrderDetails() != null)
+            item.setOrderDetails(null);
         return item;
     }
 

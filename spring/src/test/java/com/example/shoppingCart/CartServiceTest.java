@@ -6,8 +6,10 @@ import com.example.shoppingCart.repositories.CartRepository;
 import com.example.shoppingCart.services.CartService;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,22 +22,13 @@ import java.util.stream.Collectors;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+@RunWith(MockitoJUnitRunner.class)
 public class CartServiceTest {
 
     private Logger logger = LoggerFactory.getLogger("DebugLogger");
-
-    @InjectMocks
-    CartService cartService;
-
-    @Mock
-    CartRepository cartRepository;
-
     private List<Cart> carts;
 
-    @Before
-    public void init() {
-        initMocks(this);
-
+    public CartServiceTest() {
         carts = new ArrayList<>();
         Cart cart1 = new Cart();
         cart1.setId(1);
@@ -56,6 +49,17 @@ public class CartServiceTest {
         carts.add(cart2);
     }
 
+    @InjectMocks
+    CartService cartService;
+
+    @Mock
+    CartRepository cartRepository;
+
+    @Before
+    public void init() {
+        initMocks(this);
+    }
+
     @Test
     public void testGetCart() {
         int customerId = 1;
@@ -70,7 +74,7 @@ public class CartServiceTest {
 
         Cart cart = cartService.getCart(customerId);
         int expectedCustomerId = cart.getCustomer().getId();
-        assertEquals(expectedCustomerId, 1);
+        assertEquals(1, expectedCustomerId);
     }
 
 }
