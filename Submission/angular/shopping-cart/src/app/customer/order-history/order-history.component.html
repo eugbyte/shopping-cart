@@ -1,0 +1,28 @@
+<form [formGroup]="searchForm">
+    <div class="form-group">
+        <input type="text" formControlName="searchText" class="form-control" 
+            placeholder="Search for order" />
+    </div>
+</form>
+<mat-paginator [length]="pageLength"
+    [pageSize]="pageSize"
+    [hidePageSize]="true"
+    (page)="setPage($event)">
+</mat-paginator>
+
+<table [class]="TABLE_CSS">
+    <thead class="thead-dark">
+        <tr>
+            <th>Id</th>
+            <th>Order Date</th>
+            <th>Order Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let order of ordersToDisplay">
+            <td>{{ order.id }}</td>
+            <td>{{ order.orderDate | date }}</td>
+            <td>{{ order.orderDetails | orderDetails }}</td>
+        </tr> 
+    </tbody>
+</table>

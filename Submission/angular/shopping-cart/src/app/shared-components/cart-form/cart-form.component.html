@@ -1,0 +1,22 @@
+    <form [formGroup]="cartForm">
+      <div class="form-row">
+        <div class="col">
+          <input type="number" formControlName="quantity" class="form-control" />
+        </div>
+        <div class="col">
+          <span *ngIf="quantity.value *  price.value > 0 ">
+            = ${{ quantity.value *  price.value }}
+          </span>
+        </div>
+        <div class="col"  *ngIf="action == 'ACTION_CREATE' ">
+          <input type="submit" (click)="onAddToCart()" 
+            [disabled]="!cartForm.valid"
+            value="Add to Cart" class="btn btn-primary" />
+        </div>
+        <div class="col" *ngIf="action == 'ACTION_UPDATE' ">
+          <input type="submit" (click)="onUpdateCart()"
+            [disabled]="!cartForm.valid"
+            value="Update Cart" class="btn btn-primary" />
+        </div>
+      </div>
+    </form>
