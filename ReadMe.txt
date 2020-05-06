@@ -1,5 +1,5 @@
 QUICK LOOK at hosted sites
-Angular Site: https://ang-app-shoppingcart.azurewebsites.net/items
+Angular Site: https://ang-app-shoppingcart.azurewebsites.net
 SPRING API Site: 
 https://shoppingcart-1588732177603.azurewebsites.net/api/items
 https://shoppingcart-1588732177603.azurewebsites.net/api/orders/1
