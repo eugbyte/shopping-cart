@@ -1,8 +1,8 @@
 QUICK LOOK at hosted sites
-Angular Site: https://ang-app-shoppingcart.azurewebsites.net
+Angular Site: http://shoppingcart2.s3-website-ap-southeast-1.amazonaws.com
 SPRING API Site: 
-https://shoppingcart-1588732177603.azurewebsites.net/api/items
-https://shoppingcart-1588732177603.azurewebsites.net/api/orders/1
+http://shoppingcart5-env.eba-mm5i3cqy.ap-southeast-1.elasticbeanstalk.com/api/items
+http://shoppingcart5-env.eba-mm5i3cqy.ap-southeast-1.elasticbeanstalk.com/api/orders/1
 
 SQL DATABASE INSTALLATION
 1. Unzip folder
